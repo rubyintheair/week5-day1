@@ -48,6 +48,17 @@ class UserTest < ActiveSupport::TestCase
     a = User.last
     assert_nil a.password
   end 
+
+  test "#authenticate should work" do 
+    a = User.create! email: "a@gmail", password: "12345"
+    
+    assert_equal false, a.authenticate("wrong")
+    assert_equal a, a.authenticate(12345)
+    assert_equal a, a.authenticate("12345")
+    assert_equal false, a.authenticate(nil)
+    assert_equal false, a.authenticate("")
+    assert_equal false, a.authenticate(User.last)
+  end
   
 
 end
